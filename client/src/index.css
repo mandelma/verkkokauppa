@@ -1,0 +1,128 @@
+.header {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10px;
+ }
+ 
+ section {
+   width: 80%;
+   height: 800px;
+   margin: auto;
+   border: 1px solid blue;
+ }
+
+ .adminSection {
+  box-sizing: border-box;
+  margin: auto;
+  height: 800px;
+  overflow: auto;
+}
+
+ #container {
+  box-sizing: border-box;
+  background-color: #e6e6e6;
+  margin: auto;
+  height: 800px;
+  padding-bottom: 2.5rem;
+  width: 70%;
+  padding: 20px;
+  float: left;
+  overflow: auto;
+}
+
+.adminContainer {
+  box-sizing: border-box;
+  background-color: #e6e6e6;
+  
+  height: 800px;
+ 
+  width: 70%;
+  padding: 40px;
+  float: left;
+}
+
+.adminMainLeft {
+  box-sizing: border-box;
+  border: solid 1px;
+  width: 48%;
+  height: 700px;
+  padding: 10px;
+  float: left;
+}
+
+.adminMainRight {
+  box-sizing: border-box;
+  border: solid 1px;
+  width: 48%;
+  height: 700px;
+  float: left;
+  padding: 10px;
+  margin-left: 30px;
+}
+
+@media screen and (max-width: 1225px) {
+  .adminMainLeft 
+  {
+    width: 100%;
+    float: left;
+  }
+}
+
+@media screen and (max-width: 1225px) {
+  .adminMainRight
+  {
+    display: none;
+  }
+}
+
+aside {
+  box-sizing: border-box;
+  overflow: auto;
+  background-color: #cccccc;
+  padding: 20px;
+  height: 800px;
+  width: 30%;
+  float: left;
+}
+
+.adminAside {
+  box-sizing: border-box;
+  overflow: auto;
+  background-color: #cccccc;
+  padding: 20px;
+  height: 800px;
+  width: 30%;
+  float: left;
+}
+
+@media screen and (max-width: 760px) {
+  #container,
+  aside {
+    width: auto;
+    float: none
+  }
+}
+
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.register {
+  padding: 20px;
+}
+
+footer {
+  border: 1px solid red;
+  background-color: grey;
+  color: white;
+  text-align: center;
+  height: 5.5rem;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
