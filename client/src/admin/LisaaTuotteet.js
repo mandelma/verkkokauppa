@@ -6,6 +6,7 @@ import { Icon, Popup, Button, Menu, Table, Form, Select } from 'semantic-ui-reac
 //import axios from 'axios'
 import categoryService from '../services/category'
 import imageService from '../services/images'
+import { createImage, addImage } from '../reducers/imageReducer'
 import { addNewProduct } from '../reducers/productReducer'
 //import './inputFile.css'
 
@@ -50,6 +51,7 @@ const LisaaTuotteet = (props) => {
   if (addFile) {
   }
   
+  
 
   const saveNewProduct = async () => {
     
@@ -64,19 +66,24 @@ const LisaaTuotteet = (props) => {
       //const result = await categoryService.addProduct(selectCategoryId, newProduct)
       //createProduct(result)
       props.addNewProduct(selectCategoryId, newProduct)
-      console.log('image id', imgData.imgCreated._id)
-      console.log('või ilma imgCreated', imgData._id)
+
+
+      //props.addImage(imgData.imgCreated)
+
+      console.log('image data for update image', imgData.imgCreated)
+      //console.log('image id', imgData.imgCreated._id)
     }catch (exception) {
       console.log('Error: ', exception)
     }
     //setProductName('')
-    //setIsAddProduct(false)
+    props.setIsAddProduct(false)
   }
 
   const addImage = async () => {
     const data = new FormData()
     data.append('file', addFile)
     const imageUpdate = await imageService.create(data)
+    
     setImgData(imageUpdate)
     //imageUp(imageUpdate)
     setSaveButton(true)
@@ -85,6 +92,8 @@ const LisaaTuotteet = (props) => {
     setImageSent(true)
   }
 
+  console.log('products in lisaa tuotteet', props.product)
+
   const removeImage = () => {
     setShowImage(null)
     setRemoveButton(false)
@@ -92,7 +101,7 @@ const LisaaTuotteet = (props) => {
   }
 
   const canselNewTuote = () => {
-    //setIsAddProduct(false)
+    props.setIsAddProduct(false)
   }
 
   //console.log('result: ', imgFile)
@@ -180,7 +189,7 @@ const LisaaTuotteet = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     category: state.category,
     product: state.product
@@ -188,7 +197,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  addNewProduct
+  addNewProduct,
+  createImage,
+  addImage
 }
 
 export default connect(

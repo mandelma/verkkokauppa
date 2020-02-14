@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rmdir /s /q build && cd C:/users/majaa/siivousRedux/verkkokauppa/client/ && npm run build --prod && xcopy build ..\\server\\build\\ /E /H /C /R /Q /Y ",
+    "build:ui": "rmdir /s /q build && cd C:/users/majaa/xxx/verkkokauppa/client/ && npm run build --prod && xcopy build ..\\server\\build\\ /E /H /C /R /Q /Y ",
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -am uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail"

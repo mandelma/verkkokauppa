@@ -32,7 +32,7 @@ categoryRouter.post('/:id/product', async (req, res) => {
       price: req.body.price,
       count: req.body.count,
       category: category._id,
-      image: req.body.image
+      image: req.body.image,
     })
     //const image = await Image.findById(newProduct.image)
     const image = await Image.findById(newProduct.image)

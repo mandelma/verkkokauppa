@@ -7,6 +7,12 @@ const productReducer = (state = [], action) => {
       return state.concat(action.data)
     case 'ADD_PRODUCT':
       return state.concat(action.data)
+    case 'EDIT_PRODUCT':
+      const id = action.data.id
+      console.log('edited product in productReducer xxxxxxxxxxxxxxxxxxxxxxx', action.data)
+      return  state.map(product => product.id !== id ? product : action.data)
+    case 'DEL_PRODUCT':
+      return state.filter(product => product.id !== action.data)
     default:
       return state
   }
@@ -28,6 +34,26 @@ export const addNewProduct = (id, product) => {
     dispatch({
       type: 'ADD_PRODUCT',
       data: addedProduct
+    })
+  }
+}
+
+export const editProduct = (id, newObject) => {
+  return async dispatch => {
+    const editedProduct = await productService.update(id, newObject)
+    dispatch({
+      type: 'EDIT_PRODUCT',
+      data: editedProduct
+    })
+  }
+}
+
+export const removeProduct = (id) => {
+  return async dispatch => {
+    await productService.remove(id)
+    dispatch({
+      type: 'DEL_PRODUCT',
+      data: id
     })
   }
 }

@@ -95,13 +95,15 @@ imageRouter.put('/:id', upload.single('file'), async (req, res) => {
 imageRouter.get('/', async (req, res) => {
   const images = await Image.find({})
   res.send(images)
- /*  Image.find({}).then(data => {
-    /* res.status(200).json({
-      message: 'Picture retrieved successfully',
-      data: data
-    }) */
-    //res.status(200).json(data) */
-  //})
+})
+
+imageRouter.delete('/:id', async (req, res) => {
+  try {
+    await Image.findByIdAndDelete(req.params.id)
+    res.status(204).end()
+  } catch (err) {
+    console.log('Error:', err)
+  }
 })
 
 module.exports = imageRouter

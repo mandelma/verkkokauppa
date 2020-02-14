@@ -13,5 +13,14 @@ const create = async (productObject) => {
   return result.data
 }
 
+const update = async (id, newProduct) => {
+  const product = await axios.put(`${baseUrl}/${id}`, newProduct)
+  return product.data
+}
 
-export default { getAll }
+const remove = async (id) => {
+  await axios.delete(`${baseUrl}/${id}`)
+}
+
+
+export default { getAll, update, remove }

@@ -8,7 +8,7 @@ const orderSchema = new Schema({
   date: {
     type: String
   },
-  productId: {
+  cartId: {
     type: Array
   },
   product: {

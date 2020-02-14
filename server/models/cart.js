@@ -8,10 +8,10 @@ const cartSchema = new Schema({
   image: {
     type: String
   },
-  productName: {
+  productId: {
     type: String
   },
-  productSecondName: {
+  productName: {
     type: String
   },
   defPrice: {

@@ -5,32 +5,18 @@ import { removeItem, updateCartItem, delAllCart } from '../reducers/cartReducer'
 import { message } from '../reducers/message/messageReduser'
 import { createOrder } from '../reducers/orderReducer'
 import { setOrder } from '../reducers/orderDataReducer'
+import { editProduct } from '../reducers/productReducer'
 import Footer from './footer'
 
 const Ostoskori = (props) => {
-  const [isPlusItem, setIsPlusItem] = useState(false)
   const [isOrdered, setIsOrdered] = useState(false)
   const [disableTable, setDisableTable] = useState(false)
   let [price, setPrice] = useState(null)
-  let [productCount, setProductCount] = useState(true)
-
-  /* let [orderData, setOrderData] = useState({
-    productId: [],
-    product: [],
-    productPrice: [],
-    productTotalPrice: [],
-    productCount: [],
-    image: []
-  }) */
-
-  console.log('cart in cart:', props.cart)
+  const [newItems, setNewItems] = useState(null)
 
   const removeCartItem = (id) => {
-    console.log('item id is', id)
     props.removeItem(id)
   }
-
-  console.log('orderData in order', props.orderData)
 
   const increaseItemCount = (item) => {
     const newItemObject = {
@@ -42,6 +28,7 @@ const Ostoskori = (props) => {
     }
     if (item.productCount > 0) {
       props.updateCartItem(item._id, newItemObject)
+      setNewItems(newItemObject)
     }
   }
 
@@ -55,41 +42,40 @@ const Ostoskori = (props) => {
     }
     if (item.productCartCount > 1) {
       props.updateCartItem(item._id, newItemObj)
+      setNewItems(newItemObj)
     }
   }
 
   const orderProducts = () => {
-    //props.cart.map(item => props.setOrder(item))
-    //props.setOrder()
     props.setOrder(props.cart)
-    /* props.cart.map(item => {
-      setOrderData({
-        productId: [...orderData.productId, item._id],
-        product: [...orderData.product, item.productName],
-        productPrice: [...orderData.productPrice, item.defPrice],
-        productTotalPrice: [...orderData.productTotalPrice, item.productPrice],
-        productCount: [...orderData.productCount, item.productCartCount],
-        image: [...orderData.image, item.image]
-      })
-    }) */
+
     setIsOrdered(true)
     setDisableTable(true)
   }
 
+  const data = props.orderData
+  for (let i = 0; i < data.productId.length; i++) {
+    const product = {
+      name: data.product[i],
+      price: data.productPrice[i],
+      count: data.productCount[i],
+      id: data.productId[i]
+    }
+
+    console.log('product', product)
+  }
+
   const maksaa = () => {
-    console.log('maksaa tuotteista')
     const date = new Date()
-    const reducer = (acu, item) => acu + item
-    
     try {
       const newOrder = {
-        user: 'marman',
+        user: props.logInUser.username,
         date: date.toDateString(),
-        productId: props.orderData.productId,
+        cartId: props.orderData.cartId,
         product: props.orderData.product,
         productPrice: props.orderData.productPrice,
         productTotalPrice: props.orderData.productTotalPrice,
-        count: props.orderData.productCount,
+        count: props.orderData.productCartCount,
         image: props.orderData.image
       }
 
@@ -102,6 +88,20 @@ const Ostoskori = (props) => {
       console.log('Error:', err)
     }
 
+    const data = props.orderData
+
+    for (let i = 0; i < data.productId.length; i++) {
+      const product = {
+        name: data.product[i],
+        price: data.productPrice[i],
+        count: data.productCount[i]
+      }
+      try {
+        props.editProduct(data.productId[i], product)
+      } catch (err) {
+        console.log('Error:', err)
+      }
+    }
   }
 
   const poistaTilaus = () => {
@@ -124,7 +124,7 @@ const Ostoskori = (props) => {
               />}
           <Table basic = 'very'>
             <Table.Body>
-              {props.cart.map((item, i) =>
+              {props.cart.map((item, i) => item.productName !== 'Kotisiivous palvelu' ?
                 <Table.Row key = {item._id} disabled = {disableTable}>
                   <Table.Cell ><img style = {{width: '100px'}} src = {item.image}></img></Table.Cell>
                   <Table.Cell>
@@ -155,7 +155,26 @@ const Ostoskori = (props) => {
                     />
                    
                   </Table.Cell>
-                </Table.Row>  )}
+                </Table.Row> 
+                 :
+                <Table.Row key = {item._id} disabled = {disableTable}>
+                  <Table.Cell>
+                    <img style = {{width: '100px'}} src = {item.image}></img>
+                  </Table.Cell>
+                  <Table.Cell>
+                    {item.productName}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <p>Hinta: <b style = {{color: 'blue'}}>{item.productPrice} euroa</b></p>
+                    
+                    <Button icon = 'trash' color = 'red'
+                        onClick = {() => removeCartItem(item._id)}/>
+                    <Label size = 'large' color = 'grey'>
+                      Määrä
+                      <Label.Detail>{item.productCartCount} tuntia</Label.Detail>
+                    </Label>
+                  </Table.Cell>
+                </Table.Row> )}
               <Table.Row>
                 
               </Table.Row>
@@ -186,13 +205,14 @@ const Ostoskori = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     products: state.product,
     cart: state.cart,
     user: state.user,
     msg: state.message,
-    orderData: state.orderData
+    orderData: state.orderData,
+    image: state.image
   }
 }
 
@@ -202,7 +222,8 @@ const mapDispatchToProps = {
   delAllCart,
   createOrder,
   message, 
-  setOrder
+  setOrder,
+  editProduct
 }
 
 export default connect(

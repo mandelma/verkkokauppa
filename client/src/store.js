@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import categoryReducer from './reducers/categoryReducer'
 import messageReducer from './reducers/message/messageReduser'
 import errorMessageReducer from './reducers/message/errMessageReduser'
+import infoMessageReducer from './reducers/message/infoMessageReducer'
 import productReducer from './reducers/productReducer'
 import imageReducer from './reducers/imageReducer'
 import cartReducer from './reducers/cartReducer'
@@ -17,6 +18,7 @@ import orderDataReducer from './reducers/orderDataReducer'
 const reducer = combineReducers({
   category: categoryReducer,
   message: messageReducer,
+  infoMessage: infoMessageReducer,
   errorMessage: errorMessageReducer,
   product: productReducer,
   image: imageReducer,

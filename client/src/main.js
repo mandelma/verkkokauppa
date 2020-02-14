@@ -11,20 +11,17 @@ import Siivousaineet from './pages/Siivousaineet'
 import Login from './pages/login'
 import Register from './pages/register'
 import History from './pages/history'
+import Kotisiivous from './pages/kotisiivous'
 import { logOut } from './reducers/loginReducer'
 
 
 const Main = (props) => {
-  
-  
   const trigger = (
     <span>
-      <Icon name = 'user' />Hello, {props.logIn.name}
+      <Icon name = 'user' />Hello, {props.logInUser.name}
     </span>
   )
 
-  
-  
   const logOutUser = () => {
     props.logOut()
   }
@@ -83,12 +80,6 @@ const Main = (props) => {
                         <Dropdown.Item text='Sign Out' icon='sign out' onClick = {() => logOutUser()}/>
                       </Dropdown.Menu>
                     </Dropdown>
-                  
-                    {/* <Dropdown 
-                      trigger = {trigger} 
-                      options = {options}
-                      onChange = {handleOptions}
-                    />  */}
                   </Menu.Item> 
                   : <Menu.Item>
                   <Link to = '/login'>Login</Link></Menu.Item>}
@@ -99,11 +90,12 @@ const Main = (props) => {
 
           <Route exact path = '/' render = {() => <Etusivu />} />
           <Route path = '/about' render = {() => <About />} />
-          <Route path = '/siivousaineet' render = {() => <Siivousaineet />}  />
-          <Route path = '/ostoskori' render = {() => <Ostoskori />} />
+          <Route path = '/siivousaineet' render = {() => <Siivousaineet logInUser = {props.logInUser}/>}  />
+          <Route path = '/ostoskori' render = {() => <Ostoskori logInUser = {props.logInUser}/>} />
           <Route path = '/login' render = {() => !props.userIn ? <Login /> : <Redirect to = '/' />} />
           <Route path = '/register' render = {() => <Register />} />
-          <Route path = '/history' render = {() => props.userIn ? <History logIn = {props.logIn}/> : <Redirect to = '/' />} />
+          <Route path = '/history' render = {() => props.userIn ? <History logInUser = {props.logInUser}/> : <Redirect to = '/' />} />
+          <Route path = '/kotisiivous' render = {() => <Kotisiivous logInUser = {props.logInUser} />} />
         </div>
 
       </Router>
@@ -112,14 +104,10 @@ const Main = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state is', state)
-  console.log('OwnProps are here', ownProps)
   return {
     cart: state.cart,
     user: state.user,
     userIn: state.userIn
-
-    
   }
 }
 

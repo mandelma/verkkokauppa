@@ -18,4 +18,8 @@ const update = async (id, newImageData) => {
   return result.data
 }
 
-export default { getAll, create, update }
+const remove = async (id) => {
+  await axios.delete(`${baseUrl}/${id}`)
+}
+
+export default { getAll, create, update, remove }

@@ -1,6 +1,7 @@
 const cartRouter = require('express').Router()
 const Cart = require('../models/cart')
 const Product = require('../models/product')
+const Image = require('../models/image')
 
 cartRouter.get('/', async (req, res) => {
   const result = await Cart.find({}).populate('product',
@@ -15,12 +16,13 @@ cartRouter.post('/:id', async (req, res) => {
     const itemInCart = new Cart({
       username: body.username,
       image: body.image,
+      productId: product.id,
       productName: body.productName,
       defPrice: product.price,
       productPrice: body.productPrice,
       productCount: body.productCount,
       productCartCount: 1,
-      product: product._id
+      //product: product._id
     })
 
     const savedCart = await itemInCart.save()
@@ -33,13 +35,20 @@ cartRouter.post('/:id', async (req, res) => {
   }
 })
 
-cartRouter.post('/siivous', async (req, res) => {
+
+// EI ole käytössä
+cartRouter.post('/', async (req, res) => {
   const body = req.body
   try {
+    const image = await Image.findById('5e418f6b409a0f2be08b81b2')
     const tilaus =  new Cart({
-      user: body.user,
-      name: body.name,
-      price: body.price
+      username: body.username,
+      image: image.productImg,
+      productName: body.name,
+      productCount: body.count,
+      defPrice: body.tuntiHinta,
+      productCartCount: body.tuntiMaara,
+      productPrice: body.price
     })
 
     const savedTilaus = await tilaus.save()

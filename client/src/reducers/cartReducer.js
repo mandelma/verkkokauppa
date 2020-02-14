@@ -5,6 +5,7 @@ const cartReducer = (state = [], action) => {
     case 'GET_ITEMS':
       return state.concat(action.data)
     case 'CREATE_ITEM':
+      console.log('cartReducer create item', action.data)
       return state.concat(action.data)
     case 'DEL_ITEM':
       const id = action.data
@@ -14,8 +15,6 @@ const cartReducer = (state = [], action) => {
       return state = []
     case 'EDIT_ITEM':
       const itemId = action.data._id
-      console.log('updated cart item', action.data)
-      console.log('updated cart item id', itemId)
       return state.map(item => item._id !== itemId ? item : action.data)
     default:
       return state
@@ -38,6 +37,17 @@ export const createItem = (id, item) => {
     dispatch({
       type: 'CREATE_ITEM',
       data: cartItem
+    })
+  }
+}
+
+// Create siivous palvelu
+export const createService = (seCart) => {
+  return async dispatch => {
+    const createSeItem = await cartService.createSiivousCart(seCart)
+    dispatch({
+      type: 'CREATE_ITEM',
+      data: createSeItem
     })
   }
 }

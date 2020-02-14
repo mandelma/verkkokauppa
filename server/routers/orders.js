@@ -12,7 +12,7 @@ orderRouter.post('/', async (req, res) => {
     const order = new Order({
       user: body.user,
       date: body.date,
-      productId: body.productId,
+      cartId: body.cartId,
       product: body.product,
       productTotalPrice: body.productTotalPrice,
       productPrice: body.productPrice,

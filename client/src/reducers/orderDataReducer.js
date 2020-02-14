@@ -4,38 +4,40 @@ const initialOrder = {
   productPrice: [],
   productTotalPrice: [],
   productCount: [],
+  productCartCount: [],
   image: []
 }
 
 const orderDataReducer = (state = initialOrder, action) => {
   switch (action.type) {
     case 'SET_ORDER':
-      const orderProduct = {...state, product: [...state.product, action.data.product]}
-      const orderPrice = {...state, product: [...state.product, action.data.product]}
       return action.data
-      //...state, productPrice: [...state.productPrice, action.data.productPrice]}
     default:
       return state
   }
 }
 
 const newOrder = {
-  productId: [],
+  cartId: [],
   product: [],
+  productId: [],
   productPrice: [],
   productTotalPrice: [],
   productCount: [],
+  productCartCount: [],
   image: []
 }
 
 export const setOrder = (cart) => {
   
   cart.forEach(element => {
-    newOrder.productId.push(element._id)
+    newOrder.cartId.push(element._id)
     newOrder.product.push(element.productName)
+    newOrder.productId.push(element.productId)
     newOrder.productPrice.push(element.defPrice)
     newOrder.productTotalPrice.push(element.productPrice)
     newOrder.productCount.push(element.productCount)
+    newOrder.productCartCount.push(element.productCartCount)
     newOrder.image.push(element.image)
   })
   return dispatch => 

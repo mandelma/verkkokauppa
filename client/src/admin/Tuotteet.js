@@ -1,32 +1,67 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Table, Button, Popup, Menu, Icon} from 'semantic-ui-react'
+import { Table, Button, Popup, Menu, Input, Icon} from 'semantic-ui-react'
 import LisaaTuotteet from './LisaaTuotteet'
+import MuokkaTuote from './muokkaTuote'
 
+const initialState = {
+  search: '',
+  isLoading: false
+}
 
 const Product = (props) => {
   const [isAddProduct, setIsAddProduct] = useState(false)
   const [isEditProduct, setIsEditProduct] = useState(false)
   const [productData, setproductData] = useState([])
+  const [state, setState] = useState(initialState)
+  const [isLoading, setIsLoading] = useState(false)
+  const [filterLen, setFilterLen] = useState(0)
 
   const editProduct = (product) => {
     setproductData(product)
     setIsEditProduct(true)
   }
+  
+  // product search by product name
+  const filterSearch = props.products.filter(product => {
+    return product.name.toLowerCase().indexOf(state.search) !== -1
+  })
 
-  console.log('products: ', props.products)
+  const changeSearch = (searchValue, filterLen) => {
+    const temp = searchValue
+    setFilterLen(filterSearch.length)
+    console.log('temp len is', temp.length)
+    console.log('lilter search len inside function now:', filterLen)
+    if (temp.length < 1 || filterSearch.length > 0) {
+      setState({search: searchValue.substring(0, 20), isLoading: false})
+    }
+    else {
+      setState({search: searchValue.substring(0, 20), isLoading: true})
+    }
+    
+  }
+
+  
+  //console.log('filterLen', filterLen)
+  console.log('lilter search:', filterSearch.length)
+  console.log('state isLoading:', isLoading)
 
   if (isAddProduct) {
     return (
      <div>
-       <LisaaTuotteet />
+       <LisaaTuotteet 
+        setIsAddProduct = {setIsAddProduct}
+       />
      </div>
     )
   }
   else if (isEditProduct) {
     return (
       <div>
-        Edit product
+        <MuokkaTuote 
+          productData = {productData}
+          setIsEditProduct = {setIsEditProduct}
+        />
       </div>
     )
   }
@@ -35,6 +70,17 @@ const Product = (props) => {
       <Menu stackable size = 'huge' inverted color = 'grey' position = 'right'>
         <Menu.Item>
           <h3>Tuotteet</h3>
+        </Menu.Item>
+        <Menu.Item>
+          <Input
+            type = 'text'
+            icon = 'search'
+            //loading icon = 'user'
+            loading = {state.isLoading}
+            placeholder = 'Etsi tuoten nimellä...' 
+            value = {state.search}
+            onChange = {({ target }) => changeSearch(target.value, filterSearch.length)}
+          />
         </Menu.Item>
         <Menu.Menu position = 'right'>
           <Popup content = 'lisää uusi tuote' trigger = {<Button icon  = 'plus' primary
@@ -53,7 +99,7 @@ const Product = (props) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {props.products.map(product => 
+          {filterSearch.map(product => 
             <Table.Row key = {product.id}>
               <Table.Cell textAlign = 'center'><img style = {{width: '50px', border: 'solid grey'}} 
                  src = {product.image.productImg}></img>
@@ -67,7 +113,6 @@ const Product = (props) => {
               </Table.Cell>
             </Table.Row>
           )}
-             
         </Table.Body>
       </Table>
     </div>

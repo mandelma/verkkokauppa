@@ -19,6 +19,13 @@
   overflow: auto;
 }
 
+.productSection {
+  box-sizing: border-box;
+  margin: auto;
+  height: 800px;
+  overflow: auto;
+}
+
  #container {
   box-sizing: border-box;
   background-color: #e6e6e6;
@@ -34,12 +41,21 @@
 .adminContainer {
   box-sizing: border-box;
   background-color: #e6e6e6;
-  
   height: 800px;
- 
   width: 70%;
   padding: 40px;
   float: left;
+}
+
+.productContainer {
+  box-sizing: border-box;
+  background-color: #e6e6e6;
+  margin: auto;
+  height: 600px;
+  padding-bottom: 2.5rem;
+  width: 70%;
+  padding: 20px;
+  overflow: auto;
 }
 
 .adminMainLeft {
@@ -48,6 +64,7 @@
   width: 48%;
   height: 700px;
   padding: 10px;
+  overFlow: auto;
   float: left;
 }
 
@@ -58,6 +75,7 @@
   height: 700px;
   float: left;
   padding: 10px;
+  overFlow: auto;
   margin-left: 30px;
 }
 

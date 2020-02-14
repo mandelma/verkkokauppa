@@ -12,6 +12,11 @@ const create = async (id, item) => {
   return response.data
 }
 
+const createSiivousCart = async (palvelu) => {
+  const response = await axios.post(baseUrl, palvelu)
+  return response.data
+}
+
 const update = async (id, updatedItem) => {
   const result = await axios.put(`${baseUrl}/${id}`, updatedItem)
   return result.data
@@ -27,4 +32,4 @@ const removeAll = async () => {
   return poistettu.data
 }
 
-export default { getAll, create, remove, update, removeAll }
+export default { getAll, create, createSiivousCart, remove, update, removeAll }
